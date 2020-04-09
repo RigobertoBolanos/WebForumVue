@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <v-toolbar dark prominent src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg">
+    <v-toolbar dark  src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg">
 
       <v-toolbar-items>
         <v-btn to='/users' text>Users</v-btn>
@@ -30,6 +30,9 @@ export default {
 </script>
 
 <style>
+body{
+   background-color: rgb(143, 196, 245);
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -37,5 +40,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  
 }
 </style>
