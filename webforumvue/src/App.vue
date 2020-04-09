@@ -1,17 +1,30 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <v-toolbar dark prominent src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg">
+
+      <v-toolbar-items>
+        <v-btn to='/users' text>Users</v-btn>
+        <v-btn to='/forums' text>Forums</v-btn>
+      </v-toolbar-items>
+
+      <v-spacer></v-spacer>
+
+      <v-toolbar-items>
+        <v-btn to='/logIn' text>Log In</v-btn>
+        <v-btn to='/signUp' text>Sign Up</v-btn>
+      </v-toolbar-items>
+
+    </v-toolbar>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+
   }
 }
 </script>
