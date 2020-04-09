@@ -37,13 +37,6 @@
                 label="Password"
                 @click:append="showpassword = !showpassword"
             ></v-text-field>
-            <v-text-field 
-                label="Confirm Password"
-                required
-                @change="match"
-                
-                v-model="confirmpassword"
-            ></v-text-field>
             <v-btn @click="signUp" :disabled="!valid">Sign Up</v-btn>
         </v-form>
     </div>
@@ -86,9 +79,6 @@ export default {
     methods: {
         signUp(){
             this.submitted = true
-        },
-        match(){
-            return this.password === this.confirmpassword
         }
     }
 }

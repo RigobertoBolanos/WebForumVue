@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <v-toolbar dark prominent src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg">
-
+    <v-toolbar dark src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg">
       <v-toolbar-items>
         <v-btn to='/users' text>Users</v-btn>
         <v-btn to='/forums' text>Forums</v-btn>
@@ -36,6 +35,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+.v-toolbar--prominent .v-toolbar__content {
+    align-items: center
 }
 </style>
