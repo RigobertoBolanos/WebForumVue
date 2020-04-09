@@ -8,10 +8,10 @@
                 v-model="email"
             ></v-text-field>
             <v-text-field
+                :append-icon="showpassword ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="showpassword ? 'text' : 'password'"
                 label="Password"
-                type="password"
-                required
-                v-model="password"
+                @click:append="showpassword = !showpassword"
             ></v-text-field>
             <v-btn @click="logIn" :disabled="!valid">Log In</v-btn>
         </v-form>
@@ -24,8 +24,10 @@ export default {
         return{
             name: "",
             email: "",
+            password: "",
             valid: true,
-            emailRules: 
+            showpassword: false,
+            emailRules:
             [
                 email => !!email || "Email is required",
                 email => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email) || "Email must be valid"
@@ -33,8 +35,8 @@ export default {
         }
     },
     methods: {
-        signUp(){    
-                 
+        logIn(){    
+
         }
     }
 }

@@ -7,6 +7,7 @@
                 <p><strong>Name:</strong> {{name}}</p>
                 <p><strong>Lastname:</strong> {{lastname}}</p>
                 <p><strong>Email:</strong> {{email}}</p>
+                <p><strong>Password:</strong> {{password}}</p>
             </div>
             <v-btn to="/">Go to homepage</v-btn>
         </div>
@@ -21,7 +22,7 @@
                 label="Lastname"
                 required
                 :rules="lastnameRules"
-                v-model="name"
+                v-model="lastname"
             ></v-text-field>
             <v-text-field
                 label="Email"
@@ -29,11 +30,19 @@
                 :rules="emailRules"
                 v-model="email"
             ></v-text-field>
-            <v-text-field 
-                label="Password"
-                required
+            <v-text-field
+                :append-icon="showpassword ? 'mdi-eye' : 'mdi-eye-off'"
                 :rules="passwordRules"
-                v-model="password"
+                :type="showpassword ? 'text' : 'password'"
+                label="Password"
+                @click:append="showpassword = !showpassword"
+            ></v-text-field>
+            <v-text-field 
+                label="Confirm Password"
+                required
+                @change="match"
+                
+                v-model="confirmpassword"
             ></v-text-field>
             <v-btn @click="signUp" :disabled="!valid">Sign Up</v-btn>
         </v-form>
@@ -41,20 +50,17 @@
 </template>
 
 <script>
-import {mask} from "vue-the-mask"
-
 export default {
-    directives: {
-        mask,
-    },
     data(){
         return{
             name: "",
             lastname: "",
             email: "",
             password: "",
+            confirmpassword: "",
             submitted: false,
             valid: true,
+            showpassword: false,
             nameRules: 
             [
                 name => !!name || "Name is required",
@@ -73,13 +79,16 @@ export default {
             passwordRules:
             [
                 password => !!password || "Password is required",
-                password => /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}+$/.test(password) || "The password must contain at least 8 and no more than 16 characters, at least one digit, at least one lower case and at least one upper case.\nIt can NOT have any other symbol."
+                password => /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/.test(password) || "The password must contain at least 8 and no more than 16 characters, at least one digit, at least one lower case and at least one upper case.\nIt can NOT have any other symbol."
             ]
         }
     },
     methods: {
         signUp(){
-
+            this.submitted = true
+        },
+        match(){
+            return this.password === this.confirmpassword
         }
     }
 }
