@@ -5,8 +5,8 @@
             <div class="details text-xs-left">
                 <h3 class="blue-grey--text">User details</h3>
                 <p><strong>Name:</strong> {{name}}</p>
+                <p><strong>Lastname:</strong> {{lastname}}</p>
                 <p><strong>Email:</strong> {{email}}</p>
-                <p><strong>Phone:</strong> {{phone}}</p>
             </div>
             <v-btn to="/">Go to homepage</v-btn>
         </div>
@@ -18,17 +18,22 @@
                 v-model="name"
             ></v-text-field>
             <v-text-field
+                label="Lastname"
+                required
+                :rules="lastnameRules"
+                v-model="name"
+            ></v-text-field>
+            <v-text-field
                 label="Email"
                 required
                 :rules="emailRules"
                 v-model="email"
             ></v-text-field>
             <v-text-field 
-                label="Phone"
+                label="Password"
                 required
-                :rules="phoneRules"
-                v-mask="'(###) ### - ###'"
-                v-model="phone"
+                :rules="passwordRules"
+                v-model="password"
             ></v-text-field>
             <v-btn @click="signUp" :disabled="!valid">Sign Up</v-btn>
         </v-form>
@@ -45,8 +50,9 @@ export default {
     data(){
         return{
             name: "",
+            lastname: "",
             email: "",
-            phone: "",
+            password: "",
             submitted: false,
             valid: true,
             nameRules: 
@@ -54,20 +60,26 @@ export default {
                 name => !!name || "Name is required",
                 name => name.length > 4 || "Name must be longer than 4 characters"
             ],
+            lastnameRules: 
+            [
+                lastname => !!lastname || "Lastname is required",
+                lastname => lastname.length > 4 || "Name must be longer than 4 characters"
+            ],
             emailRules: 
             [
                 email => !!email || "Email is required",
                 email => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email) || "Email must be valid"
             ],
-            phoneRules:
+            passwordRules:
             [
-                phone => !!phone || "Phone is required",
-                phone => phone.length >= 7 || "Phone number should be at least 7 digits"
+                password => !!password || "Password is required",
+                password => /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}+$/.test(password) || "The password must contain at least 8 and no more than 16 characters, at least one digit, at least one lower case and at least one upper case.\nIt can NOT have any other symbol."
             ]
         }
     },
     methods: {
-        signUp(){         
+        signUp(){
+
         }
     }
 }
