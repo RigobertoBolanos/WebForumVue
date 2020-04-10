@@ -112,7 +112,10 @@ h3{
     padding:3%;
     margin-left: 20%;
     margin-right: 20%;
-   
-    
+    background-color: rgba(255, 255, 255, 0.788);
+}
+
+v-form{
+    color: red;
 }
 </style>

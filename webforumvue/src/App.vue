@@ -30,7 +30,7 @@ export default {
 
 <style>
 body{
-   background-color: rgb(143, 196, 245);
+   background-color: rgba(156, 203, 248, 0.836);
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
