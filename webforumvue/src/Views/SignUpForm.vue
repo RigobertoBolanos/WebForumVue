@@ -108,4 +108,11 @@ export default {
 h3{
     padding-bottom: 20px;
 }
+.form{
+    padding:3%;
+    margin-left: 20%;
+    margin-right: 20%;
+   
+    
+}
 </style>
