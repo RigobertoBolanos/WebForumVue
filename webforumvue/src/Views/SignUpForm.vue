@@ -1,7 +1,7 @@
 <template>
     <div class="form-wrapper">
 
-        <v-card class="form">
+        <v-card class="form" >
             <div class="text-xs-center" v-if="submitted">
                 <h2>Thank you for signing to our forums</h2>
                 <div class="details text-xs-left">
@@ -11,7 +11,7 @@
                     <p><strong>Email:</strong> {{email}}</p>
                     <p><strong>Password:</strong> {{password}}</p>
                 </div>
-                <v-btn to="/">Go to homepage</v-btn>
+                <br><v-btn to="/">Go to homepage</v-btn>
             </div>        
             <v-form v-else v-model="valid">
                 <v-text-field
@@ -37,6 +37,7 @@
                     :rules="passwordRules"
                     :type="showpassword ? 'text' : 'password'"
                     label="Password"
+                    v-model="password"
                     @click:append="showpassword = !showpassword"
                 ></v-text-field>
                 <v-btn @click="signUp" :disabled="!valid">Sign Up</v-btn>
@@ -104,7 +105,10 @@ h3{
     padding:3%;
     margin-left: 20%;
     margin-right: 20%;
-   
-    
+    background-color: rgba(255, 255, 255, 0.788);
+}
+
+v-form{
+    color: red;
 }
 </style>
