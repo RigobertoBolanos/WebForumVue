@@ -42,7 +42,8 @@
                 ></v-text-field>
                 <v-btn @click="signUp" :disabled="!valid">Sign Up</v-btn>
             </v-form>
-        </v-card>
+        </v-card> 
+        
     </div>
 </template>
 
