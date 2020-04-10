@@ -8,6 +8,7 @@
                 v-model="email"
             ></v-text-field>
             <v-text-field
+                v-model="password"
                 :append-icon="showpassword ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="showpassword ? 'text' : 'password'"
                 label="Password"

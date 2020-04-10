@@ -31,6 +31,7 @@
                 v-model="email"
             ></v-text-field>
             <v-text-field
+                v-model="password"
                 :append-icon="showpassword ? 'mdi-eye' : 'mdi-eye-off'"
                 :rules="passwordRules"
                 :type="showpassword ? 'text' : 'password'"
@@ -43,9 +44,11 @@
 </template>
 
 <script>
+import firebase from '../config/firebase'
 export default {
     data(){
         return{
+            db: firebase.firestore(),
             name: "",
             lastname: "",
             email: "",
@@ -78,6 +81,14 @@ export default {
     },
     methods: {
         signUp(){
+            this.db.collection("user").doc().set({
+                name: this.name,
+                lastname: this.name,
+                email: this.email,
+                password: this.password,
+                active: true,
+                valid_until: new Date(Date.now + (31556926*1000))
+            })
             this.submitted = true
         }
     }
