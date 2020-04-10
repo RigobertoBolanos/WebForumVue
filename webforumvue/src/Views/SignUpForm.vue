@@ -85,13 +85,25 @@ export default {
     },
     methods: {
         signUp(){
-            this.db.collection("user").doc().set({
+            let ids = [] 
+            this.db.collection("users").get().then((result) => {
+                    result.forEach(user => {
+                        //ids.push(user.data().id)
+                        alert(user.data().id + "")
+                        alert(typeof(user.data().id))
+                    });
+                })
+            alert(ids[0] + "Que es esta verga")
+            let newId = ids.sort(function(a,b){return parseInt(b.id,10)-parseInt(a.id,10)})[0] + 1
+            
+            this.db.collection("users").doc(newId).set({
+                id: newId + "",
                 name: this.name,
                 lastname: this.name,
                 email: this.email,
                 password: this.password,
                 active: true,
-                valid_until: new Date(Date.now + (31556926*1000))
+                valid_until: Date.now() + 1000*60*60*24*365
             })
             this.submitted = true
         }
