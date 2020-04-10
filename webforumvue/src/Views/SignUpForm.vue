@@ -1,45 +1,49 @@
 <template>
     <div class="form-wrapper">
-        <div class="text-xs-center" v-if="submitted">
-            <h2>Thank you for signing to our forums</h2>
-            <div class="details text-xs-left">
-                <h3 class="blue-grey--text">User details</h3>
-                <p><strong>Name:</strong> {{name}}</p>
-                <p><strong>Lastname:</strong> {{lastname}}</p>
-                <p><strong>Email:</strong> {{email}}</p>
-                <p><strong>Password:</strong> {{password}}</p>
-            </div>
-            <v-btn to="/">Go to homepage</v-btn>
-        </div>
-        <v-form v-else v-model="valid">
-            <v-text-field
-                label="Name"
-                required
-                :rules="nameRules"
-                v-model="name"
-            ></v-text-field>
-            <v-text-field
-                label="Lastname"
-                required
-                :rules="lastnameRules"
-                v-model="lastname"
-            ></v-text-field>
-            <v-text-field
-                label="Email"
-                required
-                :rules="emailRules"
-                v-model="email"
-            ></v-text-field>
-            <v-text-field
-                v-model="password"
-                :append-icon="showpassword ? 'mdi-eye' : 'mdi-eye-off'"
-                :rules="passwordRules"
-                :type="showpassword ? 'text' : 'password'"
-                label="Password"
-                @click:append="showpassword = !showpassword"
-            ></v-text-field>
-            <v-btn @click="signUp" :disabled="!valid">Sign Up</v-btn>
-        </v-form>
+
+        <v-card class="form" >
+            <div class="text-xs-center" v-if="submitted">
+                <h2>Thank you for signing to our forums</h2>
+                <div class="details text-xs-left">
+                    <h3 class="blue-grey--text">User details</h3>
+                    <p><strong>Name:</strong> {{name}}</p>
+                    <p><strong>Lastname:</strong> {{lastname}}</p>
+                    <p><strong>Email:</strong> {{email}}</p>
+                    <p><strong>Password:</strong> {{password}}</p>
+                </div>
+                <br><v-btn to="/">Go to homepage</v-btn>
+            </div>        
+            <v-form v-else v-model="valid">
+                <v-text-field
+                    label="Name"
+                    required
+                    :rules="nameRules"
+                    v-model="name"
+                ></v-text-field>
+                <v-text-field
+                    label="Lastname"
+                    required
+                    :rules="lastnameRules"
+                    v-model="lastname"
+                ></v-text-field>
+                <v-text-field
+                    label="Email"
+                    required
+                    :rules="emailRules"
+                    v-model="email"
+                ></v-text-field>
+                <v-text-field
+                    :append-icon="showpassword ? 'mdi-eye' : 'mdi-eye-off'"
+                    :rules="passwordRules"
+                    :type="showpassword ? 'text' : 'password'"
+                    label="Password"
+                    v-model="password"
+                    @click:append="showpassword = !showpassword"
+                ></v-text-field>
+                <v-btn @click="signUp" :disabled="!valid">Sign Up</v-btn>
+            </v-form>
+        </v-card> 
+        
     </div>
 </template>
 
