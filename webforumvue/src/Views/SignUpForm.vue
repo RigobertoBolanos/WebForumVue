@@ -43,7 +43,6 @@
                 <v-btn @click="signUp" :disabled="!valid">Sign Up</v-btn>
             </v-form>
         </v-card> 
-        
     </div>
 </template>
 
@@ -111,7 +110,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .form-wrapper{
     padding: 40px;
     text-align: center;
