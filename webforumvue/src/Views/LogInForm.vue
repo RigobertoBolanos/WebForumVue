@@ -1,40 +1,64 @@
 <template>
-    <div class="form-wrapper">
-        <v-card class="form" >
-            <v-form v-model="valid">
-                <v-text-field
-                    label="Email"
-                    required
-                    :rules="emailRules"
-                    v-model="email"
-                ></v-text-field>
-                <v-text-field
-                    v-model="password"
-                    :append-icon="showpassword ? 'mdi-eye' : 'mdi-eye-off'"
-                    :type="showpassword ? 'text' : 'password'"
-                    label="Password"
-                    @click:append="showpassword = !showpassword"
-                ></v-text-field>
-                <v-btn @click="logIn" :disabled="!valid">Log In</v-btn>
-            </v-form>
-        </v-card>
+    <div id="app">
+        <v-app class="LoginDiv">
+                <v-layout
+                justify-center
+                >
+                <v-flex
+                    xs12
+                    sm8
+                    md4
+                >
+                    <v-card class="elevation-12">
+                    <v-toolbar
+                        color="primary"
+                        dark
+                        flat
+                        align-center
+                    >
+                    <v-spacer />
+                        <v-toolbar-title class="toolbarTitle">
+                            Login
+                        </v-toolbar-title>
+                    <v-spacer />  
+                    </v-toolbar>
+                    <v-card-text>
+                        <v-form>
+                        <v-text-field
+                            label="Username"
+                            prepend-icon="mdi-account"
+                            type="text"
+                            :v-model="username"
+                        ></v-text-field>
+
+                        <v-text-field
+                            v-model="password"
+                            :append-icon="showpassword ? 'mdi-eye' : 'mdi-eye-off'"
+                            :type="showpassword ? 'text' : 'password'"
+                            label="Password"
+                            @click:append="showpassword = !showpassword"
+                            prepend-icon="mdi-lock"
+                        ></v-text-field>
+                        </v-form>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer>
+                        <v-btn color="primary" @click="logIn"  ><v-icon>mdi-login-variant</v-icon></v-btn>
+                        </v-spacer>
+                    </v-card-actions>
+                    </v-card>
+                </v-flex>
+                </v-layout>
+        </v-app>
     </div>
 </template>
-
 <script>
 export default {
     data(){
         return{
-            name: "",
-            email: "",
+            username: "",
             password: "",
-            valid: true,
-            showpassword: false,
-            emailRules:
-            [
-                email => !!email || "Email is required",
-                email => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email) || "Email must be valid"
-            ]
+            showpassword: false
         }
     },
     methods: {
@@ -46,16 +70,13 @@ export default {
 </script>
 
 <style scoped>
-.form-wrapper{
-    padding: 40px;
-    text-align: center;
+#app{
+    margin-top: 2px;
 }
-
-.details{
-    padding-top: 30px;
+.toolbarTitle{
+    font-size: 180%;
 }
-
-h3{
-    padding-bottom: 20px;
+.LoginDiv{
+    padding-top: 10%;
 }
 </style>

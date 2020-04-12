@@ -9,7 +9,7 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
-        <v-btn to='/logIn' text>Log In</v-btn>
+        <v-btn to='/logIn' text>Login</v-btn>
         <v-btn to='/signUp' text>Sign Up</v-btn>
       </v-toolbar-items>
 
