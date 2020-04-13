@@ -1,7 +1,5 @@
 <template>
     <div class="forums">
-                            <v-card class="elevation-12">
-
         <v-data-table
         :headers="headers"
         :items="desserts"
@@ -13,9 +11,7 @@
         <template v-slot:top>
             <v-text-field v-model="search" label="Search (UPPER CASE ONLY)" class="mx-4"></v-text-field>
         </template>
-        
         </v-data-table>
-                            </v-card>
     </div>
     <!-- <v-card class="forums">
         <v-simple-table dark>
