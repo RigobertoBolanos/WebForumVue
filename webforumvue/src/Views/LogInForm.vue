@@ -43,7 +43,7 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer>
-                        <v-btn color="primary" @click="logIn"  ><v-icon>mdi-login-variant</v-icon></v-btn>
+                        <v-btn outlined color="primary"  @click="logIn"><v-icon>mdi-login-variant</v-icon></v-btn>
                         </v-spacer>
                     </v-card-actions>
                     </v-card>
@@ -57,7 +57,7 @@ export default {
     data(){
         return{
             username: "",
-            password: "",
+            password: "", 
             showpassword: false
         }
     },

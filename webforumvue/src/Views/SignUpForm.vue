@@ -1,8 +1,6 @@
 <template>
-    <div class="form-wrapper">
-
-        <v-card class="form" >
-            <div class="text-xs-center" v-if="submitted">
+    <div id="app">
+        <div class="text-xs-center" v-if="submitted">
                 <h2>Thank you for signing to our forums</h2>
                 <div class="details text-xs-left">
                     <h3 class="blue-grey--text">User details</h3>
@@ -13,38 +11,77 @@
                 </div>
                 <br><v-btn to="/">Go to homepage</v-btn>
             </div>        
-            <v-form v-else v-model="valid">
-                <v-text-field
-                    label="Name"
-                    required
-                    :rules="nameRules"
-                    v-model="name"
-                ></v-text-field>
-                <v-text-field
-                    label="Lastname"
-                    required
-                    :rules="lastnameRules"
-                    v-model="lastname"
-                ></v-text-field>
-                <v-text-field
-                    label="Email"
-                    required
-                    :rules="emailRules"
-                    v-model="email"
-                ></v-text-field>
-                <v-text-field
-                    :append-icon="showpassword ? 'mdi-eye' : 'mdi-eye-off'"
-                    :rules="passwordRules"
-                    :type="showpassword ? 'text' : 'password'"
-                    label="Password"
-                    v-model="password"
-                    @click:append="showpassword = !showpassword"
-                ></v-text-field>
-                <v-btn @click="signUp" :disabled="!valid">Sign Up</v-btn>
-            </v-form>
-        </v-card> 
+        <v-app class="LoginDiv" v-else>
+                <v-layout
+                justify-center
+                >
+                <v-flex
+                    xs12
+                    sm8
+                    md4
+                >
+                    <v-card class="elevation-12">
+                    <v-toolbar
+                        color="primary"
+                        dark
+                        flat
+                        align-center
+                    >
+                    <v-spacer />
+                        <v-toolbar-title class="toolbarTitle">
+                            Sign Up
+                        </v-toolbar-title>
+                    <v-spacer />  
+                    </v-toolbar>
+                    <v-card-text>
+                        <v-form v-model="valid">
+                        <v-text-field
+                            label="Name"
+                            required
+                            :rules="nameRules"
+                            v-model="name"
+                            prepend-icon="mdi-account-circle"
+                            type="text"
+                        ></v-text-field>
+                        <v-text-field
+                            label="Lastname"
+                            required
+                            :rules="lastnameRules"
+                            v-model="lastname"
+                            prepend-icon="mdi-account-circle"
+                            type="text"
+                        ></v-text-field>
+                        <v-text-field
+                            label="Email"
+                            required
+                            :rules="emailRules"
+                            v-model="email"
+                            prepend-icon="mdi-email"
+                            type="email"
+                        ></v-text-field>
+                        <v-text-field
+                            v-model="password"
+                            :append-icon="showpassword ? 'mdi-eye' : 'mdi-eye-off'"
+                            :type="showpassword ? 'text' : 'password'"
+                            :rules="passwordRules"
+                            label="Password"
+                            @click:append="showpassword = !showpassword"
+                            prepend-icon="mdi-lock"
+                        ></v-text-field>
+                        </v-form>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer>
+                        <v-btn outlined color="primary" @click="signUp" :disabled="!valid" >Submit <v-icon right>mdi-login-variant</v-icon></v-btn>
+                        </v-spacer>
+                    </v-card-actions>
+                    </v-card>
+                </v-flex>
+                </v-layout>
+        </v-app>
     </div>
 </template>
+
 
 <script>
 import firebase from '../config/firebase'
@@ -56,19 +93,18 @@ export default {
             lastname: "",
             email: "",
             password: "",
-            confirmpassword: "",
             submitted: false,
             valid: true,
             showpassword: false,
             nameRules: 
             [
                 name => !!name || "Name is required",
-                name => name.length > 4 || "Name must be longer than 4 characters"
+                name => name.length > 3 || "Name must be longer than 3 characters"
             ],
             lastnameRules: 
             [
                 lastname => !!lastname || "Lastname is required",
-                lastname => lastname.length > 4 || "Name must be longer than 4 characters"
+                lastname => lastname.length > 3 || "Name must be longer than 3 characters"
             ],
             emailRules: 
             [
@@ -111,26 +147,7 @@ export default {
 </script>
 
 <style>
-.form-wrapper{
-    padding: 40px;
-    text-align: center;
-}
-
-.details{
-    padding-top: 30px;
-}
-
-h3{
-    padding-bottom: 20px;
-}
-.form{
-    padding:3%;
-    margin-left: 20%;
-    margin-right: 20%;
-    background-color: rgba(255, 255, 255, 0.788);
-}
-
-v-form{
-    color: red;
+.LoginDiv{
+    padding-top: 5%;
 }
 </style>
