@@ -3,7 +3,7 @@
         <v-data-table
         :headers="headers"
         :items="forums"
-        item-key="name"
+        item-key="id"
         class="elevation-1"
         :search="search"
         :custom-filter="filterOnlyCapsText"
@@ -60,10 +60,24 @@ export default {
                         
                         if(forum.data().parent === null)
                         {
+                            forum.creator = this.findUser(forum.data().creator.id)
                             this.forums.push(forum.data())
                         }
                     });
                 })
+        },
+        findUser(id){
+            let user
+            let ended = false
+            this.db.collection("users").doc(id).get().then((result) => {
+                user = result.data()
+                ended = true
+            })
+            while(!ended)
+            {
+                ended = false
+            }
+            return user            
         }
     },
     mounted: function () {
