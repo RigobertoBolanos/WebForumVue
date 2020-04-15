@@ -53,34 +53,26 @@ export default {
           typeof value === 'string' &&
           value.toString().toUpperCase().indexOf(search) !== -1
       },
-        refresh(){
-            this.db.collection("entries").get().then((result) => {
-                
-                    result.forEach(forum => {
-                        
+        refresh()
+        {
+            this.db.collection("entries").get().then((forums) => {
+                    forums.forEach(forum => 
+                    {
                         if(forum.data().parent === null)
                         {
-                            this.db.collection("users").doc(forum.data().creator.id).get().then((result) => {
-                              this.pushForum(forum,result.data())
+                            this.db.collection("users").doc(forum.data().creator.id).get().then((user) => 
+                            {
+                              this.pushForum(forum,user.data())
                             })
-                            
                         }
                     });
                 })
         },
-        pushForum(forum, id){
-          let foro = forum.data()
-          foro.creator = id
-          this.forums.push(foro)
-        },
-        findUser(id){
-          console.log(this.db.collection("users").doc(id).get())
-            let user
-            this.db.collection("users").doc(id).get().then((result) => {
-                user = result.data()
-            })
-            console.log(user)
-            return user            
+        pushForum(newForum, user)
+        {
+          let forum = newForum.data()
+          forum.creator = user
+          this.forums.push(forum)
         }
     },
     mounted: function () {

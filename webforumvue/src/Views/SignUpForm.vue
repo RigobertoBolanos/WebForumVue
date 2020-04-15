@@ -12,72 +12,61 @@
                 <br><v-btn to="/">Go to homepage</v-btn>
             </div>        
         <v-app class="LoginDiv" v-else>
-                <v-layout
-                justify-center
-                >
-                <v-flex
-                    xs12
-                    sm8
-                    md4
-                >
+            <v-layout justify-center>
+                <v-flex xs12 sm8 md4>
                     <v-card class="elevation-12">
-                    <v-toolbar
-                        color="primary"
-                        dark
-                        flat
-                        align-center
-                    >
-                    <v-spacer />
-                        <v-toolbar-title class="toolbarTitle">
-                            Sign Up
-                        </v-toolbar-title>
-                    <v-spacer />  
-                    </v-toolbar>
-                    <v-card-text>
-                        <v-form v-model="valid">
-                        <v-text-field
-                            label="Name"
-                            required
-                            :rules="nameRules"
-                            v-model="name"
-                            prepend-icon="mdi-account-circle"
-                            type="text"
-                        ></v-text-field>
-                        <v-text-field
-                            label="Lastname"
-                            required
-                            :rules="lastnameRules"
-                            v-model="lastname"
-                            prepend-icon="mdi-account-circle"
-                            type="text"
-                        ></v-text-field>
-                        <v-text-field
-                            label="Email"
-                            required
-                            :rules="emailRules"
-                            v-model="email"
-                            prepend-icon="mdi-email"
-                            type="email"
-                        ></v-text-field>
-                        <v-text-field
-                            v-model="password"
-                            :append-icon="showpassword ? 'mdi-eye' : 'mdi-eye-off'"
-                            :type="showpassword ? 'text' : 'password'"
-                            :rules="passwordRules"
-                            label="Password"
-                            @click:append="showpassword = !showpassword"
-                            prepend-icon="mdi-lock"
-                        ></v-text-field>
-                        </v-form>
-                    </v-card-text>
-                    <v-card-actions>
-                        <v-spacer>
-                        <v-btn outlined color="primary" @click="signUp" :disabled="!valid" >Submit <v-icon right>mdi-login-variant</v-icon></v-btn>
-                        </v-spacer>
-                    </v-card-actions>
+                        <v-toolbar color="primary" dark flat align-center>
+                            <v-spacer />
+                                <v-toolbar-title class="toolbarTitle">
+                                    Sign Up
+                                </v-toolbar-title>
+                            <v-spacer />  
+                        </v-toolbar>
+                        <v-card-text>
+                            <v-form v-model="valid">
+                                <v-text-field
+                                    label="Name"
+                                    required
+                                    :rules="nameRules"
+                                    v-model="name"
+                                    prepend-icon="mdi-account-circle"
+                                    type="text"
+                                ></v-text-field>
+                                <v-text-field
+                                    label="Lastname"
+                                    required
+                                    :rules="lastnameRules"
+                                    v-model="lastname"
+                                    prepend-icon="mdi-account-circle"
+                                    type="text"
+                                ></v-text-field>
+                                <v-text-field
+                                    label="Email"
+                                    required
+                                    :rules="emailRules"
+                                    v-model="email"
+                                    prepend-icon="mdi-email"
+                                    type="email"
+                                ></v-text-field>
+                                <v-text-field
+                                    v-model="password"
+                                    :append-icon="showpassword ? 'mdi-eye' : 'mdi-eye-off'"
+                                    :type="showpassword ? 'text' : 'password'"
+                                    :rules="passwordRules"
+                                    label="Password"
+                                    @click:append="showpassword = !showpassword"
+                                    prepend-icon="mdi-lock"
+                                ></v-text-field>
+                            </v-form>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer>
+                                <v-btn outlined color="primary" @click="signUp" :disabled="!valid" >Submit <v-icon right>mdi-login-variant</v-icon></v-btn>
+                            </v-spacer>
+                        </v-card-actions>
                     </v-card>
                 </v-flex>
-                </v-layout>
+            </v-layout>
         </v-app>
     </div>
 </template>
@@ -119,28 +108,25 @@ export default {
         }
     },
     methods: {
-        signUp(){
-            let ids = [] 
-            this.db.collection("users").get().then((result) => {
-                    result.forEach(user => {
-                        //ids.push(user.data().id)
-                        alert(user.data().id + "")
-                        alert(typeof(user.data().id))
-                    });
+        signUp(){ 
+            this.db.collection("params").doc("lastUserId").get().then((lastUserId) => 
+            {   
+                let newId = (parseInt(lastUserId.data().value) + 1).toString()     
+                this.db.collection("users").doc(newId).set(
+                {
+                        id: newId,
+                        name: this.name,
+                        lastname: this.name,
+                        email: this.email,
+                        password: this.password,
+                        active: true,
                 })
-            alert(ids[0] + "Que es esta verga")
-            let newId = ids.sort(function(a,b){return parseInt(b.id,10)-parseInt(a.id,10)})[0] + 1
-            
-            this.db.collection("users").doc(newId).set({
-                id: newId + "",
-                name: this.name,
-                lastname: this.name,
-                email: this.email,
-                password: this.password,
-                active: true,
-                valid_until: Date.now() + 1000*60*60*24*365
-            })
-            this.submitted = true
+                this.submitted = true
+                this.db.collection("params").doc("lastUserId").set(
+                {
+                    value: newId
+                })
+            }) 
         }
     }
 }
