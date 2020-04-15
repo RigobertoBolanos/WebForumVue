@@ -36,7 +36,7 @@ export default {
           {
             text: 'Creator',
             sortable: true,
-            value: 'creator'
+            value: 'creator.name'
           },
           {
             text: 'Creation Date',
@@ -60,23 +60,26 @@ export default {
                         
                         if(forum.data().parent === null)
                         {
-                            forum.creator = this.findUser(forum.data().creator.id)
-                            this.forums.push(forum.data())
+                            this.db.collection("users").doc(forum.data().creator.id).get().then((result) => {
+                              this.pushForum(forum,result.data())
+                            })
+                            
                         }
                     });
                 })
         },
+        pushForum(forum, id){
+          let foro = forum.data()
+          foro.creator = id
+          this.forums.push(foro)
+        },
         findUser(id){
+          console.log(this.db.collection("users").doc(id).get())
             let user
-            let ended = false
             this.db.collection("users").doc(id).get().then((result) => {
                 user = result.data()
-                ended = true
             })
-            while(!ended)
-            {
-                ended = false
-            }
+            console.log(user)
             return user            
         }
     },
