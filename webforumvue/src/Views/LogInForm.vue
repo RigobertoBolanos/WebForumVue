@@ -25,10 +25,10 @@
                     <v-card-text>
                         <v-form>
                         <v-text-field
-                            label="Username"
+                            label="Email"
                             prepend-icon="mdi-account"
                             type="text"
-                            :v-model="username"
+                            :v-model="email"
                         ></v-text-field>
 
                         <v-text-field
@@ -53,17 +53,30 @@
     </div>
 </template>
 <script>
+import firebase from '../config/firebase'
 export default {
     data(){
         return{
-            username: "",
+            db: firebase.firestore(),
+            email: "",
             password: "", 
             showpassword: false
         }
     },
     methods: {
-        logIn(){    
-
+        logIn()
+        {    
+            this.db.collection("users").where("email", "==", this.email).get().then((user) => 
+            {
+                console.log(user)
+                if(user.password === this.password)
+                {
+                    this.db.collection("users").doc(user.data().id).set(
+                    {
+                        active: true,
+                    })
+                }
+            })
         }
     }
 }

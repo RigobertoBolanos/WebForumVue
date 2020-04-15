@@ -119,7 +119,7 @@ export default {
                         lastname: this.name,
                         email: this.email,
                         password: this.password,
-                        active: true,
+                        active: false,
                 })
                 this.submitted = true
                 this.db.collection("params").doc("lastUserId").set(

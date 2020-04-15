@@ -6,10 +6,10 @@
         item-key="id"
         class="elevation-1"
         :search="search"
-        :custom-filter="filterOnlyCapsText"
+        :custom-filter="filterText"
         >
         <template v-slot:top>
-            <v-text-field v-model="search" label="Search (UPPER CASE ONLY)" class="mx-4"></v-text-field>
+            <v-text-field v-model="search" label="Search" class="mx-4"></v-text-field>
         </template>
         </v-data-table>
     </div>
@@ -47,11 +47,11 @@ export default {
       },
     },
     methods:{
-         filterOnlyCapsText (value, search) {
+         filterText (value, search) {
         return value != null &&
           search != null &&
           typeof value === 'string' &&
-          value.toString().toUpperCase().indexOf(search) !== -1
+          value.toString().indexOf(search) !== -1
       },
         refresh()
         {
