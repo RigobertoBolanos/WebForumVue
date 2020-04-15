@@ -187,6 +187,5 @@ export default {
     box-shadow: 0px 0px 23px 2px rgba(0,0,0,0.21);
     /* padding:3%; */
     margin: 3%;
-    background-color: rgba(255, 255, 255, 0.788);
 }
 </style>
