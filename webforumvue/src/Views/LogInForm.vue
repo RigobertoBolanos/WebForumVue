@@ -28,7 +28,7 @@
                             label="Email"
                             prepend-icon="mdi-account"
                             type="text"
-                            :v-model="email"
+                            v-model="email"
                         ></v-text-field>
 
                         <v-text-field
@@ -43,7 +43,7 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer>
-                        <v-btn outlined color="primary"  @click="logIn"><v-icon>mdi-login-variant</v-icon></v-btn>
+                        <v-btn type="submit" outlined color="primary" @click="logIn()"><v-icon>mdi-login-variant</v-icon></v-btn>
                         </v-spacer>
                     </v-card-actions>
                     </v-card>
@@ -57,26 +57,24 @@ import firebase from '../config/firebase'
 export default {
     data(){
         return{
-            db: firebase.firestore(),
             email: "",
             password: "", 
-            showpassword: false
+            showpassword: false,
+            error: null
         }
     },
     methods: {
         logIn()
         {    
-            this.db.collection("users").where("email", "==", this.email).get().then((user) => 
+            alert(this.password.trim())
+            firebase.auth()
+            .signInWithEmailAndPassword(this.email.trim(), this.password).then(() => 
             {
-                console.log(user)
-                if(user.password === this.password)
-                {
-                    this.db.collection("users").doc(user.data().id).set(
-                    {
-                        active: true,
-                    })
-                }
-            })
+                this.$router.replace({ name: "forums" });
+            }).catch(err => {
+                alert(err.message)
+                this.error = err.message;
+            });
         }
     }
 }

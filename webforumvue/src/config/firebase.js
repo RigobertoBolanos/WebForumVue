@@ -1,8 +1,8 @@
- import firebase from 'firebase/app'
- import 'firebase/firestore'
+import * as firebase from "firebase";
+import 'firebase/firestore'
 
- // Your web app's Firebase configuration
- const firebaseConfig = {
+// Your web app's Firebase configuration
+const firebaseConfig = {
     apiKey: "AIzaSyArobpOXgv24xU0IoYWoBAMrZheNxd5S20",
     authDomain: "webforumvue.firebaseapp.com",
     databaseURL: "https://webforumvue.firebaseio.com",

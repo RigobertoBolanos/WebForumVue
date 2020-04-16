@@ -61,7 +61,7 @@
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer>
-                                <v-btn outlined color="primary" @click="signUp" :disabled="!valid" >Submit <v-icon right>mdi-login-variant</v-icon></v-btn>
+                                <v-btn type="submit" outlined color="primary" @click="signUp" :disabled="!valid" >Submit <v-icon right>mdi-login-variant</v-icon></v-btn>
                             </v-spacer>
                         </v-card-actions>
                     </v-card>
@@ -109,24 +109,20 @@ export default {
     },
     methods: {
         signUp(){ 
-            this.db.collection("params").doc("lastUserId").get().then((lastUserId) => 
-            {   
-                let newId = (parseInt(lastUserId.data().value) + 1).toString()     
-                this.db.collection("users").doc(newId).set(
+            firebase.auth()
+            .createUserWithEmailAndPassword(this.email, this.password).then(data => 
+            {
+                data.user.updateProfile(
                 {
-                        id: newId,
-                        name: this.name,
-                        lastname: this.name,
-                        email: this.email,
-                        password: this.password,
-                        active: false,
+                    name: this.name,
+                    lastname: this.lastname,
+                    active:false,
                 })
-                this.submitted = true
-                this.db.collection("params").doc("lastUserId").set(
-                {
-                    value: newId
-                })
-            }) 
+                    .then(() => {});
+            }).catch(err => {
+            this.error = err.message;
+            });
+            this.submitted = true
         }
     }
 }
