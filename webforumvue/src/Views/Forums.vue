@@ -17,6 +17,8 @@
 
 <script>
 import firebase from '../config/firebase'
+import { mapGetters } from "vuex";
+
 export default {
     data(){
         return{
@@ -26,7 +28,8 @@ export default {
         }
     },
     computed: {
-      headers () {
+      headers () 
+      {
         return [
           {
             text: 'Subject',
@@ -45,6 +48,10 @@ export default {
           },
         ]
       },
+      ...mapGetters(
+      {
+        user: "user"
+      })
     },
     methods:{
          filterText (value, search) {

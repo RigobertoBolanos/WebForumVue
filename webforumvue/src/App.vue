@@ -1,29 +1,37 @@
 <template>
   <div id="app">
-    <v-toolbar dark src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg">
-      <v-toolbar-items>
-        <v-btn to='/users' text>Users</v-btn>
-        <v-btn to='/forums' text>Forums</v-btn>
-      </v-toolbar-items>
-
-      <v-spacer></v-spacer>
-
-      <v-toolbar-items>
-        <v-btn to='/logIn' text>Login</v-btn>
-        <v-btn to='/signUp' text>Sign Up</v-btn>
-      </v-toolbar-items>
-
-    </v-toolbar>
+    <Toolbar></Toolbar>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import firebase from "firebase";
+import Toolbar from "./components/ToolBar";
 
 export default {
   name: 'App',
+  computed: {
+    ...mapGetters(
+    {
+      user: "user"
+    })
+  },
+  methods: {
+    signOut() 
+    {
+      firebase.auth().signOut().then(() => 
+      {
+          this.$router.replace(
+          {
+            name: "forums"
+          });
+      });
+    }
+  },
   components: {
-
+    Toolbar
   }
 }
 </script>
@@ -38,9 +46,5 @@ body{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-.v-toolbar--prominent .v-toolbar__content {
-    align-items: center
 }
 </style>
