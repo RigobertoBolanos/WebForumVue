@@ -46,6 +46,9 @@
                         <v-btn type="submit" outlined color="primary" @click="logIn()"><v-icon>mdi-login-variant</v-icon></v-btn>
                         </v-spacer>
                     </v-card-actions>
+                    <v-spacer>
+                        Don't have an account? <a href="/signUp" style="text-decoration:none">SignUp.</a>
+                     </v-spacer>
                     </v-card>
                 </v-flex>
                 </v-layout>
@@ -66,7 +69,6 @@ export default {
     methods: {
         logIn()
         {    
-            alert(this.password.trim())
             firebase.auth()
             .signInWithEmailAndPassword(this.email.trim(), this.password).then(() => 
             {

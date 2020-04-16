@@ -1,20 +1,21 @@
 <template>
     <div id="app">
-        <div class="text-xs-center" v-if="submitted">
-                <h2>Thank you for signing to our forums</h2>
-                <div class="details text-xs-left">
-                    <h3 class="blue-grey--text">User details</h3>
-                    <p><strong>Name:</strong> {{name}}</p>
-                    <p><strong>Lastname:</strong> {{lastname}}</p>
-                    <p><strong>Email:</strong> {{email}}</p>
-                    <p><strong>Password:</strong> {{password}}</p>
-                </div>
-                <br><v-btn to="/">Go to homepage</v-btn>
-            </div>        
-        <v-app class="LoginDiv" v-else>
+               
+        <v-app class="LoginDiv" >
             <v-layout justify-center>
                 <v-flex xs12 sm8 md4>
-                    <v-card class="elevation-12">
+                    <div class="text-xs-center" v-if="!submitted">
+                        <h1>Welcome,{{name}}{{lastname}} </h1><br>
+                        <h2 >¡Thank you for signin up to our forums!</h2>
+                        <div class="details text-xs-left">
+                            <br>
+                            <p align:left><strong>Email:</strong> {{email}}</p>
+                            <p><strong>Password:</strong> {{password}}</p>
+                        </div>
+                        <br><v-btn to="/logIn">Go to Log In</v-btn>
+                    </div> 
+                     
+                    <v-card class="elevation-12" v-else>
                         <v-toolbar color="primary" dark flat align-center>
                             <v-spacer />
                                 <v-toolbar-title class="toolbarTitle">
