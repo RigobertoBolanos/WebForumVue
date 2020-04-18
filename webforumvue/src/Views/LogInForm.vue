@@ -40,15 +40,18 @@
                             prepend-icon="mdi-lock"
                         ></v-text-field>
                         </v-form>
-                    </v-card-text>
-                    <v-card-actions>
                         <v-spacer>
-                        <v-btn type="submit" outlined color="primary" @click="logIn()"><v-icon>mdi-login-variant</v-icon></v-btn>
+                            <v-btn type="submit" outlined color="primary" @click="logIn()"><v-icon>mdi-login-variant</v-icon></v-btn>
                         </v-spacer>
-                    </v-card-actions>
+                    </v-card-text>
                     <v-spacer>
                         Don't have an account? <a href="/signUp" style="text-decoration:none">SignUp.</a>
                      </v-spacer>
+                   
+                    <v-card-actions>
+                        
+                    </v-card-actions>
+                    
                     </v-card>
                 </v-flex>
                 </v-layout>
@@ -83,13 +86,9 @@ export default {
 </script>
 
 <style scoped>
-#app{
-    margin-top: 2px;
-}
+
 .toolbarTitle{
     font-size: 180%;
 }
-.LoginDiv{
-    padding-top: 10%;
-}
+
 </style>

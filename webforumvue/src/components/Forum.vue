@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import entry from './Entry'
+// import entry from './Entry'
 
 export default {
     data(){
@@ -18,7 +18,7 @@ export default {
         }
     },
     components:{
-        entry
+        // entry
     }
 }
 </script>

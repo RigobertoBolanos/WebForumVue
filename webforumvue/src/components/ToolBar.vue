@@ -1,6 +1,7 @@
 <template>
     <v-toolbar dark src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg">
         <v-toolbar-items>
+        <v-icon style="margin-right:5%">mdi-forum</v-icon>
         <v-btn to='/users' text>Users</v-btn>
         <v-btn to='/forums' text>Forums</v-btn>
         </v-toolbar-items>

@@ -1,17 +1,33 @@
 <template>
-    <div class="forums">
-        <v-data-table
-        :headers="headers"
-        :items="forums"
-        item-key="id"
-        class="elevation-1"
-        :search="search"
-        :custom-filter="filterText"
-        >
-        <template v-slot:top>
-            <v-text-field v-model="search" label="Search" class="mx-4"></v-text-field>
-        </template>
-        </v-data-table>
+   <div id="app">               
+        <v-app class="LoginDiv" >
+            <v-layout justify-center>
+                <v-flex xs12 sm8 md6>
+                    <div class="forums">
+                      <div class="Title">
+                          <p>Forums</p>
+                      </div>
+                        <v-data-table
+                        :headers="headers"
+                        :items="forums"
+                        item-key="id"
+                        class="elevation-1"
+                        :search="search"
+                        :custom-filter="filterText"
+                        align-center
+                        >
+                        <template v-slot:item.creation_date="{ item }">
+                            <td class="text-xs-right">{{item.creation_date | formatDate}}</td>
+                        </template>
+                        
+                        <template v-slot:top>
+                            <v-text-field v-model="search" label="Search Forum" class="mx-4"></v-text-field>
+                        </template>
+                      </v-data-table>
+                    </div>
+                </v-flex>
+            </v-layout>
+        </v-app>
     </div>
 </template>
 
@@ -35,17 +51,21 @@ export default {
             text: 'Subject',
             sortable: true,
             value: 'subject',
+            align: "center"
           },
           {
             text: 'Creator',
             sortable: true,
-            value: 'creator.name'
+            value: 'creator.name',
+            align: "center"
           },
           {
             text: 'Creation Date',
             sortable: true,
             value: 'creation_date',
+            align: "center"
           },
+          
         ]
       },
       ...mapGetters(
@@ -80,7 +100,13 @@ export default {
           let forum = newForum.data()
           forum.creator = user
           this.forums.push(forum)
-        }
+        }      
+    },
+    filters: {
+      formatDate: function (value) {
+              if (!value) return '';
+              return new Date(value.seconds*1000).toLocaleDateString("es-ES");
+      }
     },
     mounted: function () {
         this.refresh()
@@ -89,6 +115,14 @@ export default {
 </script>
 
 <style scoped>
+.LoginDiv{
+    padding-top: 5%;
+}
+.Title{
+  font-size: 180%;
+  background: #1976D2;
+  color: white;
+}
 .forums
 {
     

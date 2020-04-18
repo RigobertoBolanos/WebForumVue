@@ -4,15 +4,15 @@
         <v-app class="LoginDiv" >
             <v-layout justify-center>
                 <v-flex xs12 sm8 md4>
-                    <div class="text-xs-center" v-if="!submitted">
-                        <h1>Welcome,{{name}}{{lastname}} </h1><br>
+                    <div class="text-xs-center" v-if="submitted">
+                        <h1>Welcome, {{name}} {{lastname}} </h1><br>
                         <h2 >¡Thank you for signin up to our forums!</h2>
                         <div class="details text-xs-left">
                             <br>
                             <p align:left><strong>Email:</strong> {{email}}</p>
                             <p><strong>Password:</strong> {{password}}</p>
                         </div>
-                        <br><v-btn to="/logIn">Go to Log In</v-btn>
+                        <br><v-btn to="/forums">Go to Forums</v-btn>
                     </div> 
                      
                     <v-card class="elevation-12" v-else>
@@ -132,5 +132,8 @@ export default {
 <style>
 .LoginDiv{
     padding-top: 5%;
+}
+.toolbarTitle{
+    font-size: 180%;
 }
 </style>
