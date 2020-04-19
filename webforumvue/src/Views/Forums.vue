@@ -74,38 +74,40 @@ export default {
       })
     },
     methods:{
-         filterText (value, search) {
-        return value != null &&
-          search != null &&
-          typeof value === 'string' &&
-          value.toString().indexOf(search) !== -1
+      filterText (value, search) 
+      {
+          return value != null &&
+            search != null &&
+            typeof value === 'string' &&
+            value.toString().indexOf(search) !== -1
       },
-        refresh()
-        {
-            this.db.collection("entries").get().then((forums) => {
-                    forums.forEach(forum => 
+      refresh()
+      {
+          this.db.collection("entries").get().then((forums) => 
+          {
+            forums.forEach(forum => 
+            {
+                if(forum.data().parent === null)
+                {
+                    this.db.collection("users").doc(forum.data().creator.id).get().then((user) => 
                     {
-                        if(forum.data().parent === null)
-                        {
-                            this.db.collection("users").doc(forum.data().creator.id).get().then((user) => 
-                            {
-                              this.pushForum(forum,user.data())
-                            })
-                        }
-                    });
-                })
-        },
-        pushForum(newForum, user)
-        {
-          let forum = newForum.data()
-          forum.creator = user
-          this.forums.push(forum)
-        }      
+                      this.pushForum(forum,user.data())
+                    })
+                }
+            });
+          })
+      },
+      pushForum(newForum, user)
+      {
+        let forum = newForum.data()
+        forum.creator = user
+        this.forums.push(forum)
+      }      
     },
     filters: {
-      formatDate: function (value) {
-              if (!value) return '';
-              return new Date(value.seconds*1000).toLocaleDateString("es-ES");
+      formatDate: function (timestamp) {
+              if (!timestamp) return '';
+              return new Date(timestamp.seconds*1000).toLocaleDateString("es-ES");
       }
     },
     mounted: function () {
