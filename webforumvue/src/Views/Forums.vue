@@ -24,9 +24,9 @@
                 <p>{{item.creation_date | formatDate}}</p>
               </template>
 
-              <template v-slot:item.actions="{ item }">
+              <template v-if="user.loggedIn" v-slot:item.actions="{ item }">
                 <v-icon color="blue" @click="moreDetails(item)">mdi-arrow-right-bold-circle-outline</v-icon>
-                <v-icon color="red" @click="deleteForum(item)">mdi-minus</v-icon>
+                <v-icon v-if="verifyDelete(item.creator)" color="red" @click="deleteForum(item)">mdi-minus</v-icon>
               </template>
 
               <template v-slot:top>
@@ -123,6 +123,9 @@ export default {
         .catch(function(error) {
           console.error("Error removing document: ", error);
         });
+    },
+    verifyDelete(creatorEmail){
+      return this.user.data.email === creatorEmail
     }
   },
   filters: {

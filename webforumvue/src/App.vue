@@ -7,7 +7,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import firebase from "firebase";
 import Toolbar from "./components/ToolBar";
 
 export default {
@@ -19,16 +18,7 @@ export default {
     })
   },
   methods: {
-    signOut() 
-    {
-      firebase.auth().signOut().then(() => 
-      {
-          this.$router.replace(
-          {
-            name: "forums"
-          });
-      });
-    }
+    
   },
   components: {
     Toolbar
