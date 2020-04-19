@@ -43,11 +43,6 @@
 import firebase from "../config/firebase";
 
 export default {
-  computed: {
-    notifyNewForum() {
-      return !this.forumAdded
-    }
-  },
   data() {
     return {
       db: firebase.firestore(),

@@ -8,7 +8,7 @@
               <v-toolbar-title>Forums</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-btn small fab dark color="blue" @click="add = !add">
-              <v-icon>{{ add ? 'mdi-minus' : 'mdi-plus' }}</v-icon>
+                <v-icon>{{ add ? 'mdi-minus' : 'mdi-plus' }}</v-icon>
               </v-btn>
             </v-toolbar>
             <v-data-table
@@ -25,7 +25,8 @@
               </template>
 
               <template v-slot:item.actions="{ item }">
-                <v-icon @click="moreDetails(item)">mdi-arrow-right-bold-circle-outline</v-icon>
+                <v-icon color="blue" @click="moreDetails(item)">mdi-arrow-right-bold-circle-outline</v-icon>
+                <v-icon color="red" @click="deleteForum(item)">mdi-minus</v-icon>
               </template>
 
               <template v-slot:top>
@@ -43,7 +44,7 @@
 <script>
 import firebase from "../config/firebase";
 import { mapGetters } from "vuex";
-import newforumform from './NewForumForm'
+import newforumform from "./NewForumForm";
 
 export default {
   data() {
@@ -82,7 +83,7 @@ export default {
       user: "user"
     })
   },
-  components:{
+  components: {
     newforumform
   },
   methods: {
@@ -95,7 +96,7 @@ export default {
       );
     },
     refresh() {
-      this.forums = []
+      this.forums = [];
       this.db
         .collection("entries")
         .get()
@@ -110,9 +111,18 @@ export default {
     moreDetails(item) {
       return this.$router.push({ path: "/forums/forum/" + item.id });
     },
-    forumAdded(){
-      this.add = false
-      this.refresh()
+    forumAdded() {
+      this.add = false;
+      this.refresh();
+    },
+    deleteForum(item) {
+      this.db.collection("entries").doc(item.id).delete().then(() => {
+          console.log("Document successfully deleted!");
+          this.refresh()
+        })
+        .catch(function(error) {
+          console.error("Error removing document: ", error);
+        });
     }
   },
   filters: {
