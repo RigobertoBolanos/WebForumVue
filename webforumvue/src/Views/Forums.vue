@@ -87,7 +87,8 @@ export default {
     newforumform
   },
   methods: {
-    filterText(value, search) {
+    filterText(value, search) 
+    {
       return (
         value != null &&
         search != null &&
@@ -95,7 +96,8 @@ export default {
         value.toString().indexOf(search) !== -1
       );
     },
-    refresh() {
+    refresh() 
+    {
       this.forums = [];
       this.db
         .collection("entries")
@@ -108,21 +110,44 @@ export default {
           });
         });
     },
-    moreDetails(item) {
+    moreDetails(item) 
+    {
       return this.$router.push({ path: "/forums/forum/" + item.id });
     },
-    forumAdded() {
+    forumAdded() 
+    {
       this.add = false;
       this.refresh();
     },
-    deleteForum(item) {
-      this.db.collection("entries").doc(item.id).delete().then(() => {
-          console.log("Document successfully deleted!");
-          this.refresh()
+    deleteForum(item) 
+    {
+      this.db.collection("entries").get().then((entries) => 
+      {
+        let forumWithEntries = false
+        entries.forEach(entry =>
+        {
+          if(entry.data().parent != null && entry.data().parent.id === item.id)
+          {
+            forumWithEntries = true
+          }
         })
-        .catch(function(error) {
-          console.error("Error removing document: ", error);
-        });
+        if(!forumWithEntries)
+        {
+          this.db.collection("entries").doc(item.id).delete().then(() => 
+          {
+            console.log("Document successfully deleted!")
+            this.refresh()
+          }).catch(function(error) 
+          {
+            console.error("Error removing document: ", error)
+          })
+        }
+        else
+        {
+          alert("This forum has entries, so it can't be deleted")
+        }
+
+      })
     },
     verifyDelete(creatorEmail){
       return this.user.data.email === creatorEmail
