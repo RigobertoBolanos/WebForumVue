@@ -11,17 +11,20 @@ Vue.use(Router);
 
 export default new Router({
   mode : 'history',
-  routes: [
-    {path: "/users", name: 'users', component: Users},
+  routes: 
+  [
     {path: "/", redirect: "/forums"},
-    {path: "/forums", name: 'forums', component: Forums},
-    {path: "/forums/:id", name: 'forum', component: Forum},
-    {path: "/logIn", name: 'logIn', component: LogInForm},
-    {path: "/signUp", name: 'signUp', component: SignUpForm}
+    {path: "/users",            name: 'users',  component: Users},
+    {path: "/forums",           name: 'forums', component: Forums},
+    {path: "/forums/forum/:id", name: 'forum',  component: Forum},
+    {path: "/logIn",            name: 'logIn',  component: LogInForm},
+    {path: "/signUp",           name: 'signUp', component: SignUpForm}
   ],
   linkActiveClass: 'active',
-  scrollBehavior (to, from, savedPosition) {
-    if (savedPosition) {
+  scrollBehavior (to, from, savedPosition) 
+  {
+    if (savedPosition) 
+    {
       return savedPosition
     } else {
       return { x: 0, y: 0 }
