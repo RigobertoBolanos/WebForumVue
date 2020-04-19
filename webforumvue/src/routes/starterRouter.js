@@ -15,7 +15,7 @@ export default new Router({
     {path: "/users", name: 'users', component: Users},
     {path: "/", redirect: "/forums"},
     {path: "/forums", name: 'forums', component: Forums},
-    {path: "/forums/:id", name: 'forum', component: Forum},
+    {path: "/forums/forum/:id", name: 'forum', component: Forum},
     {path: "/logIn", name: 'logIn', component: LogInForm},
     {path: "/signUp", name: 'signUp', component: SignUpForm}
   ],

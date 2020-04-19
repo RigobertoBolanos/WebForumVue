@@ -16,10 +16,16 @@
                         :custom-filter="filterText"
                         align-center
                         >
-                        <template v-slot:item.creation_date="{ item }">
-                            <td class="text-xs-right">{{item.creation_date | formatDate}}</td>
+                        <template v-slot:item.creation_date="{item}">
+                            <p >{{item.creation_date | formatDate}}</p>
                         </template>
-                        
+
+                        <template v-slot:item.actions="{ item }">
+                          <v-icon @click="moreDetails(item)">
+                            mdi-arrow-right-bold-circle-outline
+                          </v-icon>
+                         
+                        </template>
                         <template v-slot:top>
                             <v-text-field v-model="search" label="Search Forum" class="mx-4"></v-text-field>
                         </template>
@@ -65,7 +71,11 @@ export default {
             value: 'creation_date',
             align: "center"
           },
-          
+          { text: '',
+            value: 'actions',
+            sortable: false ,
+            align: "center"
+            },
         ]
       },
       ...mapGetters(
@@ -100,7 +110,11 @@ export default {
           let forum = newForum.data()
           forum.creator = user
           this.forums.push(forum)
-        }      
+        },
+        moreDetails(item){
+          console.log(item)
+          return this.$router.push({path: '/forums/forum/'+item.id});    
+        }     
     },
     filters: {
       formatDate: function (value) {

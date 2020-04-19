@@ -14,8 +14,8 @@
             <v-btn @click="signOut" text>Sign Out</v-btn>
         </template>
         <template v-else>
-            <v-btn to='/logIn' text>Login</v-btn>
-            <v-btn to='/signUp' text>Sign Up</v-btn>
+            <v-btn to='/logIn' text><v-icon left>mdi-account-circle</v-icon>Login</v-btn>
+            <v-btn to='/signUp' text><v-icon left>mdi-account-plus</v-icon>Sign Up</v-btn>
         </template>
         </v-toolbar-items>
     </v-toolbar>
