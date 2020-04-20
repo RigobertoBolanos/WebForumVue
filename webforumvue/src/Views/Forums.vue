@@ -7,6 +7,11 @@
             <v-toolbar style="background-color:#1976d2">
               <v-toolbar-title>Forums</v-toolbar-title>
               <v-spacer></v-spacer>
+
+              <v-dialog v-model="add">
+                <newforumform v-if="add" @notifyNewForum="forumAdded"></newforumform>
+              </v-dialog>
+
               <v-btn small fab dark color="blue" @click="add = !add">
                 <v-icon>{{ add ? 'mdi-minus' : 'mdi-plus' }}</v-icon>
               </v-btn>
@@ -26,7 +31,11 @@
 
               <template v-if="user.loggedIn" v-slot:item.actions="{ item }">
                 <v-icon color="blue" @click="moreDetails(item)">mdi-arrow-right-bold-circle-outline</v-icon>
-                <v-icon v-if="verifyDelete(item.creator)" color="red" @click="deleteForum(item)">mdi-minus</v-icon>
+                <v-icon
+                  v-if="verifyDelete(item.creator)"
+                  color="red"
+                  @click="deleteForum(item)"
+                >mdi-minus</v-icon>
               </template>
 
               <template v-slot:top>
@@ -34,7 +43,6 @@
               </template>
             </v-data-table>
           </div>
-          <newforumform v-if="add" @notifyNewForum="forumAdded"></newforumform>
         </v-flex>
       </v-layout>
     </v-app>
@@ -87,8 +95,7 @@ export default {
     newforumform
   },
   methods: {
-    filterText(value, search) 
-    {
+    filterText(value, search) {
       return (
         value != null &&
         search != null &&
@@ -96,8 +103,7 @@ export default {
         value.toString().indexOf(search) !== -1
       );
     },
-    refresh() 
-    {
+    refresh() {
       this.forums = [];
       this.db
         .collection("entries")
@@ -110,47 +116,46 @@ export default {
           });
         });
     },
-    moreDetails(item) 
-    {
+    moreDetails(item) {
       return this.$router.push({ path: "/forums/forum/" + item.id });
     },
-    forumAdded() 
-    {
+    forumAdded() {
       this.add = false;
       this.refresh();
     },
-    deleteForum(item) 
-    {
-      this.db.collection("entries").get().then((entries) => 
-      {
-        let forumWithEntries = false
-        entries.forEach(entry =>
-        {
-          if(entry.data().parent != null && entry.data().parent.id === item.id)
-          {
-            forumWithEntries = true
+    deleteForum(item) {
+      this.db
+        .collection("entries")
+        .get()
+        .then(entries => {
+          let forumWithEntries = false;
+          entries.forEach(entry => {
+            if (
+              entry.data().parent != null &&
+              entry.data().parent.id === item.id
+            ) {
+              forumWithEntries = true;
+            }
+          });
+          if (!forumWithEntries) {
+            this.db
+              .collection("entries")
+              .doc(item.id)
+              .delete()
+              .then(() => {
+                console.log("Document successfully deleted!");
+                this.refresh();
+              })
+              .catch(function(error) {
+                console.error("Error removing document: ", error);
+              });
+          } else {
+            alert("This forum has entries, so it can't be deleted");
           }
-        })
-        if(!forumWithEntries)
-        {
-          this.db.collection("entries").doc(item.id).delete().then(() => 
-          {
-            console.log("Document successfully deleted!")
-            this.refresh()
-          }).catch(function(error) 
-          {
-            console.error("Error removing document: ", error)
-          })
-        }
-        else
-        {
-          alert("This forum has entries, so it can't be deleted")
-        }
-
-      })
+        });
     },
-    verifyDelete(creatorEmail){
-      return this.user.data.email === creatorEmail
+    verifyDelete(creatorEmail) {
+      return this.user.data.email === creatorEmail;
     }
   },
   filters: {
@@ -180,5 +185,8 @@ export default {
   align-content: center;
   font-size: 180%;
   color: white;
+}
+.v-dialog_content {
+    overflow-y:hidden
 }
 </style>

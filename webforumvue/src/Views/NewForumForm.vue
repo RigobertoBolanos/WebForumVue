@@ -1,8 +1,6 @@
 <template>
   <div id="app">
     <v-app>
-      <v-layout justify-center>
-        <v-flex xs12 sm8 md4>
           <v-card class="elevation-12">
             <v-toolbar color="primary" dark flat align-center>
               <v-spacer />
@@ -32,9 +30,15 @@
                 </v-btn>
               </v-spacer>
             </v-card-text>
+            <v-alert
+              v-if="err"
+              :value="alert"
+              color="red"
+              border="top"
+              icon="mdi-home"
+              transition="scale-transition"
+              >Error while creating the forum. Please try again later</v-alert>
           </v-card>
-        </v-flex>
-      </v-layout>
     </v-app>
   </div>
 </template>
@@ -46,6 +50,7 @@ export default {
   data() {
     return {
       db: firebase.firestore(),
+      err: "",
       valid: true,
       title: "",
       subject: "",
@@ -62,36 +67,48 @@ export default {
   },
   methods: {
     addForum() {
-      let user = firebase.auth().currentUser 
-        if (user) {
-            this.db.collection("params").doc("lastEntryId").get().then((lastEntryId) =>
-            {
-                let newEntryId = (parseInt(lastEntryId.data().value) + 1).toString()
-                this.db.collection("entries").doc(newEntryId).set({
-                    creation_date: new Date(Date.now()),
-                    id: newEntryId,
-                    creator: user.email,
-                    parent: null,
-                    title: this.title,
-                    subject: this.subject
-                });
-                this.db.collection("params").doc("lastEntryId").set({
+      let user = firebase.auth().currentUser;
+      if (user) {
+        this.db.collection("params").doc("lastEntryId").get().then(lastEntryId => 
+        {
+            let newEntryId = (
+              parseInt(lastEntryId.data().value) + 1).toString();
+            this.db.collection("entries").doc(newEntryId).set(
+              {
+                i: 1/0,
+                creation_date: new Date(Date.now()),
+                id: newEntryId,
+                creator: user.email,
+                parent: null,
+                title: this.title,
+                subject: this.subject
+              }).then(() => 
+              {
+                this.db.collection("params").doc("lastEntryId").set(
+                {
                     value: newEntryId
                 });
-                this.title = "",
-                this.subject = ""
-                this.$emit('notifyNewForum')
-            })
-        } else {
-          // No user is signed in.
-        }
+                (this.title = ""), 
+                (this.subject = "");
+                this.$emit("notifyNewForum");
+              })
+              .catch(() => {
+                this.err = true
+              });
+          });
+      } else {
+        // No user is signed in.
       }
     }
+  }
 };
 </script>
 
 <style scoped>
 .toolbarTitle {
   font-size: 180%;
+}
+.v-dialog {
+    overflow-y:unset
 }
 </style>
