@@ -1,45 +1,35 @@
 <template>
   <div id="app">
-    <v-app>
-          <v-card class="elevation-12">
-            <v-toolbar color="primary" dark flat align-center>
-              <v-spacer />
-              <v-toolbar-title class="toolbarTitle">New Forum</v-toolbar-title>
-              <v-spacer />
-            </v-toolbar>
-            <v-card-text>
-              <v-form v-model="valid">
-                <v-text-field
-                  label="Forum Title"
-                  type="text"
-                  :counter="100"
-                  v-model="title"
-                  :rules="titleRules"
-                ></v-text-field>
+    <v-card class="elevation-12">
+      <v-toolbar color="primary" dark flat align-center>
+        <v-spacer />
+        <v-toolbar-title class="toolbarTitle">New Forum</v-toolbar-title>
+        <v-spacer />
+      </v-toolbar>
+      <v-card-text>
+        <v-form v-model="valid">
+          <v-text-field
+            label="Forum Title"
+            type="text"
+            :counter="100"
+            v-model="title"
+            :rules="titleRules"
+          ></v-text-field>
 
-                <v-textarea
-                  :counter="300"
-                  label="Forum Subject"
-                  :rules="subjectRules"
-                  v-model="subject"
-                ></v-textarea>
-              </v-form>
-              <v-spacer>
-                <v-btn type="submit" :disabled="!valid" outlined color="primary" @click="addForum">
-                  <v-icon>mdi-login-variant</v-icon>
-                </v-btn>
-              </v-spacer>
-            </v-card-text>
-            <v-alert
-              v-if="err"
-              :value="alert"
-              color="red"
-              border="top"
-              icon="mdi-home"
-              transition="scale-transition"
-              >Error while creating the forum. Please try again later</v-alert>
-          </v-card>
-    </v-app>
+          <v-textarea
+            :counter="300"
+            label="Forum Subject"
+            :rules="subjectRules"
+            v-model="subject"
+          ></v-textarea>
+        </v-form>
+        <v-spacer>
+          <v-btn type="submit" :disabled="!valid" outlined color="primary" @click="addForum">
+            <v-icon>mdi-login-variant</v-icon>
+          </v-btn>
+        </v-spacer>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 
@@ -49,8 +39,8 @@ import firebase from "../config/firebase";
 export default {
   data() {
     return {
+      newForumStatus: null,
       db: firebase.firestore(),
-      err: "",
       valid: true,
       title: "",
       subject: "",
@@ -73,31 +63,40 @@ export default {
         {
             let newEntryId = (
               parseInt(lastEntryId.data().value) + 1).toString();
-            this.db.collection("entries").doc(newEntryId).set(
+              this.db.collection("entries").doc(newEntryId).set(
               {
-                i: 1/0,
-                creation_date: new Date(Date.now()),
-                id: newEntryId,
-                creator: user.email,
-                parent: null,
-                title: this.title,
-                subject: this.subject
-              }).then(() => 
-              {
-                this.db.collection("params").doc("lastEntryId").set(
+                  creation_date: new Date(Date.now()),
+                  id: newEntryId,
+                  creator: user.email,
+                  parent: null,
+                  title: this.title,
+                  subject: this.subject
+              }).catch(function(error) {
+                this.newForumStatus  = 
                 {
+                  type: 'error',
+                  message: error.message,
+                  icon: 'mdi-skull-outline'
+                }
+              });                
+                this.title = ""
+                this.subject = ""
+                if(this.newForumStatus === null)
+                {
+                  this.db.collection("params").doc("lastEntryId").set(
+                  {
                     value: newEntryId
-                });
-                (this.title = ""), 
-                (this.subject = "");
-                this.$emit("notifyNewForum");
-              })
-              .catch(() => {
-                this.err = true
-              });
+                  });
+                  this.$emit("notifyNewForum")
+                  this.newForumStatus  = 
+                  {
+                    type: 'success',
+                    message: 'The forum was created successfully',
+                    icon: 'mdi-checkbox-marked-circle-outline'
+                  }
+                }
+                this.$emit("notifyNewForumStatus", this.newForumStatus)
           });
-      } else {
-        // No user is signed in.
       }
     }
   }
@@ -107,8 +106,5 @@ export default {
 <style scoped>
 .toolbarTitle {
   font-size: 180%;
-}
-.v-dialog {
-    overflow-y:unset
 }
 </style>

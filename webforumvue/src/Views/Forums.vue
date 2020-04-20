@@ -3,16 +3,24 @@
     <v-app class="LoginDiv">
       <v-layout justify-center>
         <v-flex xs12 sm8 md6>
+            <v-alert
+              v-if=" newForumStatus != null"
+              :type="newForumStatus.type"
+              outlined
+              text
+              :icon="newForumStatus.icon"
+              transition="scale-transition"
+              >{{newForumStatus.message}}</v-alert>
           <div class="forums">
             <v-toolbar style="background-color:#1976d2">
               <v-toolbar-title>Forums</v-toolbar-title>
               <v-spacer></v-spacer>
 
               <v-dialog v-model="add">
-                <newforumform v-if="add" @notifyNewForum="forumAdded"></newforumform>
+                <newforumform v-if="add" @notifyNewForum="forumAdded" @notifyNewForumStatus="showNewForumStatus"></newforumform>
               </v-dialog>
 
-              <v-btn small fab dark color="blue" @click="add = !add">
+              <v-btn v-if="user.loggedIn" small fab dark color="blue" @click="add = !add">
                 <v-icon>{{ add ? 'mdi-minus' : 'mdi-plus' }}</v-icon>
               </v-btn>
             </v-toolbar>
@@ -42,7 +50,7 @@
                 <v-text-field v-model="search" label="Search Forum" class="mx-4"></v-text-field>
               </template>
             </v-data-table>
-          </div>
+          </div>          
         </v-flex>
       </v-layout>
     </v-app>
@@ -60,7 +68,8 @@ export default {
       db: firebase.firestore(),
       forums: [],
       search: "",
-      add: false
+      add: false,
+      newForumStatus: null
     };
   },
   computed: {
@@ -105,6 +114,7 @@ export default {
     },
     refresh() {
       this.forums = [];
+      this.add = false,
       this.db
         .collection("entries")
         .get()
@@ -150,12 +160,23 @@ export default {
                 console.error("Error removing document: ", error);
               });
           } else {
-            alert("This forum has entries, so it can't be deleted");
+            let newForumStatus  = 
+            {
+              type: 'error',
+              message: "Forums with entries can't be deleted",
+              icon: 'mdi-skull-outline'
+            }
+            this.showNewForumStatus(newForumStatus)
           }
         });
     },
     verifyDelete(creatorEmail) {
       return this.user.data.email === creatorEmail;
+    },
+    showNewForumStatus(status)
+    {
+      this.newForumStatus = status
+      //setTimeout(() => this.newForumStatus = null, 3000);
     }
   },
   filters: {
@@ -185,8 +206,5 @@ export default {
   align-content: center;
   font-size: 180%;
   color: white;
-}
-.v-dialog_content {
-    overflow-y:hidden
 }
 </style>
