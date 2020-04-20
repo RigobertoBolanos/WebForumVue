@@ -29,13 +29,15 @@
                 <p>{{item.creation_date | formatDate}}</p>
               </template>
 
-              <template v-if="user.loggedIn" v-slot:item.actions="{ item }">
-                <v-icon color="blue" @click="moreDetails(item)">mdi-arrow-right-bold-circle-outline</v-icon>
-                <v-icon
-                  v-if="verifyDelete(item.creator)"
-                  color="red"
-                  @click="deleteForum(item)"
-                >mdi-minus</v-icon>
+              <template v-if="user.loggedIn" v-slot:item.actions="{ item }" align-left>
+                <div class="itemAction">
+                  <v-icon color="blue" @click="moreDetails(item)">mdi-arrow-right-bold-circle-outline</v-icon>
+                  <v-icon
+                    v-if="verifyDelete(item.creator)"
+                    color="red"
+                    @click="deleteForum(item)"
+                    >mdi-trash-can-outline</v-icon>
+                  </div>
               </template>
 
               <template v-slot:top>
@@ -191,5 +193,9 @@ export default {
 }
 .v-dialog {
     width: 50%;
+}
+
+.itemAction{
+  float: left;
 }
 </style>
