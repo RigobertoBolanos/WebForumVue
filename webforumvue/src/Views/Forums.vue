@@ -189,4 +189,7 @@ export default {
 .v-dialog_content {
     overflow-y:hidden
 }
+.v-dialog {
+    width: 50%;
+}
 </style>

@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <v-app>
           <v-card class="elevation-12">
             <v-toolbar color="primary" dark flat align-center>
               <v-spacer />
@@ -9,20 +8,25 @@
             </v-toolbar>
             <v-card-text>
               <v-form v-model="valid">
+                <v-col cols="3" md="12">
                 <v-text-field
+                
                   label="Forum Title"
                   type="text"
                   :counter="100"
                   v-model="title"
                   :rules="titleRules"
                 ></v-text-field>
-
+                </v-col>
+              <v-col cols="3" md="12">
                 <v-textarea
+                  outlined
                   :counter="300"
                   label="Forum Subject"
                   :rules="subjectRules"
                   v-model="subject"
                 ></v-textarea>
+              </v-col>
               </v-form>
               <v-spacer>
                 <v-btn type="submit" :disabled="!valid" outlined color="primary" @click="addForum">
@@ -39,7 +43,6 @@
               transition="scale-transition"
               >Error while creating the forum. Please try again later</v-alert>
           </v-card>
-    </v-app>
   </div>
 </template>
 
@@ -109,6 +112,8 @@ export default {
   font-size: 180%;
 }
 .v-dialog {
-    overflow-y:unset
+    overflow-y:unset;
 }
+
+
 </style>
