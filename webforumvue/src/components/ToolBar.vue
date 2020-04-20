@@ -11,9 +11,10 @@
     <v-toolbar-items>
       <template v-if="user.loggedIn">
         <v-btn text @click="enableOptions = !enableOptions">{{user.data.email}}</v-btn>
-        <v-list v-if="enableOptions">
-                <v-list-item @click="signOut">Sign Out</v-list-item>
-        </v-list>
+        <template v-if="enableOptions" class="options">
+          <v-btn @click="signOut" text>Sign Out</v-btn>
+          <v-btn @click="deleteAccount" text>Delete Account</v-btn>
+        </template>
       </template>
       <template v-else>
         <v-btn to="/logIn" text>
@@ -38,10 +39,10 @@ export default {
       user: "user"
     })
   },
-  data(){
-    return{
+  data() {
+    return {
       enableOptions: false
-    }
+    };
   },
   methods: {
     signOut() {
@@ -55,6 +56,12 @@ export default {
             });
           }
         });
+    },
+    deleteAccount() {
+      var user = firebase.auth().currentUser;
+      user.delete().then(function() {
+          // User deleted.
+        })
     }
   }
 };
@@ -64,15 +71,15 @@ export default {
 .v-toolbar--prominent .v-toolbar__content {
   align-items: center;
 }
-.v-list-item{
+.v-list-item {
   background-color: transparent;
-    height: 100%;
+  height: 100%;
 }
-.theme--dark.v-list {
-    /* height: 100%; */
-    background: transparent;
-    color: #fff;
-    padding-bottom: 0;
-    padding-top: 0;
+.options{
+  /* height: 100%; */
+  background: transparent;
+  color: #fff;
+  padding-bottom: 0;
+  padding-top: 0;
 }
 </style>
