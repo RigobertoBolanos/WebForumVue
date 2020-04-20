@@ -8,7 +8,7 @@
       </v-toolbar>
       <v-card-text>
         <v-form v-model="valid">
-          <v-col cols="3" md="12">
+          <v-col cols="12" md="12">
           <v-text-field
           
             label="Forum Title"
@@ -18,7 +18,7 @@
             :rules="titleRules"
           ></v-text-field>
           </v-col>
-        <v-col cols="3" md="12">
+        <v-col cols="12" md="12">
           <v-textarea
             outlined
             :counter="300"
@@ -111,8 +111,5 @@ export default {
 <style scoped>
 .toolbarTitle {
   font-size: 180%;
-}
-.v-dialog {
-    overflow-y:unset;
 }
 </style>

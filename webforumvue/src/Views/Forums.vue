@@ -201,7 +201,6 @@ export default {
   -webkit-box-shadow: 0px 0px 23px 2px rgba(0, 0, 0, 0.21);
   -moz-box-shadow: 0px 0px 23px 2px rgba(0, 0, 0, 0.21);
   box-shadow: 0px 0px 23px 2px rgba(0, 0, 0, 0.21);
-  /* padding:3%; */
   margin: 3%;
 }
 .v-toolbar__title {
@@ -210,13 +209,12 @@ export default {
   color: white;
 }
 .v-dialog_content {
-    overflow-y:hidden
+    overflow-y:hidden;
+}
+.itemAction{
+  float: left;
 }
 .v-dialog {
     width: 50%;
-}
-
-.itemAction{
-  float: left;
 }
 </style>
