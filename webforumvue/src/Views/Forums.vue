@@ -86,7 +86,7 @@ export default {
         {
           text: "Creator",
           sortable: true,
-          value: "creator",
+          value: "creator.id",
           align: "center"
         },
         {

@@ -17,7 +17,7 @@
                                     label="Name"
                                     required
                                     :rules="nameRules"
-                                    v-model="this.name"
+                                    v-model="name"
                                     prepend-icon="mdi-account-circle"
                                     type="text"
                                 ></v-text-field>
@@ -25,7 +25,7 @@
                                     label="Lastname"
                                     required
                                     :rules="lastnameRules"
-                                    v-model="this.lastname"
+                                    v-model="lastname"
                                     prepend-icon="mdi-account-circle"
                                     type="text"
                                 ></v-text-field>
@@ -33,7 +33,7 @@
                                     label="Email"
                                     required
                                     :rules="emailRules"
-                                    v-model="this.email"
+                                    v-model="email"
                                     prepend-icon="mdi-email"
                                     type="email"
                                 ></v-text-field>
@@ -110,46 +110,68 @@ export default {
     methods: {
         refresh()
         {
-            console.log(this.user.data.email)
-            this.db.collection('users').doc(this.user.data.email).get().then((user) =>
-            {
-                console.log(user)
-                this.name = user.data.name
-                this.lastname = user.data.lastname
-                this.email = user.data.email
-            }).catch(error => {
-                console.log(error.message)
-                alert("sdfjlkdsa")
-            })
+            let user = firebase.auth().currentUser
+                this.db.collection('users').doc(user.email).get().then((userdb) =>
+                {
+                    this.name = userdb.data().name
+                    this.lastname = userdb.data().lastname
+                    this.email = userdb.id
+                }).catch(error => {
+                    console.log(error.message)
+                })
         },
         updateAccount()
         {
             let user = firebase.auth().currentUser
             var credential = firebase.auth.EmailAuthProvider.credential(user.email, this.currentPassword)
+            let oldEmail = user.email.toString()
             user.reauthenticateWithCredential(credential).then(() => 
             {
-                user.updateEmail(this.email).then(function() 
+                if(oldEmail != this.email)
                 {
-                    console.log("updatedemail")
-                }).catch(function(error) {
-                    console.log(error.message)
-                });
+                    let db = this.db
+                    let newEmail = this.email
+                    let newName = this.name
+                    let newLastName = this.lastname
+                    user.updateEmail(this.email).then(function() 
+                    {
+                        console.log("Se actualizó el email")
+                        db.collection('users').doc(oldEmail).get().then((userdb) =>
+                        {
+                            let nameDoc = newName
+                            let lastNameDoc = newLastName
+                            let activeDoc = userdb.data().active
+                            console.log("Email nuevo: " + newEmail)
+                            console.log("Email viejo: " + oldEmail)
+                            console.log(userdb)
+                            db.collection('users').doc(newEmail).set(
+                            {
+                                name: nameDoc,
+                                lastname: lastNameDoc,
+                                active: activeDoc
+                            }).then(() => 
+                            {
+                                console.log("se creó un documento nuevo")
+                                db.collection('users').doc(oldEmail).delete()
+                            }).catch(error => 
+                            {
+                                console.log("Erro al crear doc nuevo :" + error.message)
+                            })
+                        })
+                        console.log("updatedemail")
+                    
+                    }).catch(function(error) {
+                        console.log(error.message)
+                    });
+                }
                 user.updatePassword(this.password).then(function() 
                 {
                     console.log("updatedpassword")
                 }).catch(function(error) {
                     console.log(error.message)
                 });
-                this.db.collection('users').doc(this.user.email).get().then(() =>
-                {
-                    // let name = user.data.name
-                    // let lastName = user.data.lastName
-                    
-                    this.db.collection('users').doc(this.email).set(
-                    {
-                        
-                    })
-                })
+                
+                
             }).catch((err) => {
                 console.log(err.message)
             });

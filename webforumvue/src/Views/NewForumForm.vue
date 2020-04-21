@@ -72,7 +72,7 @@ export default {
               {
                   creation_date: new Date(Date.now()),
                   id: newEntryId,
-                  creator: user.email,
+                  creator: this.db.collection('users').doc(user.email),
                   parent: null,
                   title: this.title,
                   subject: this.subject

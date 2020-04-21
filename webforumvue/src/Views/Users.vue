@@ -66,9 +66,15 @@ export default {
         refresh()
         {
             this.db.collection("users").get().then((users) => {
-                    users.forEach(user => 
+                    users.forEach(userdb => 
                     {
-                        this.users.push(user.data())
+                        let user = {
+                          name: userdb.data().name,
+                          lastname: userdb.data().lastname,
+                          email: userdb.id,
+                          active: userdb.data().active
+                        }
+                        this.users.push(user)
                     });
                 })
         }

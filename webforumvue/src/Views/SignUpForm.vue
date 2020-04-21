@@ -99,7 +99,7 @@ export default {
         signUp(){ 
             firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(() => 
             {
-                this.db.collection('users').doc(this.email).set(
+                this.db.collection('users').doc(this.email.toLowerCase()).set(
                 {
                     name: this.name,
                     lastname: this.lastname,
