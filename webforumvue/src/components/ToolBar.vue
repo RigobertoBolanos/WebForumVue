@@ -52,6 +52,7 @@ export default {
         .signOut()
         .then(() => {
           if (this.$route.name !== "forums") {
+            console.log(this.user)
             this.$router.replace({
               name: "forums"
             });

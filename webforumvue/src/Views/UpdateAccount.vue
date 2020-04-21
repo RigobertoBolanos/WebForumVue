@@ -7,7 +7,7 @@
                         <v-toolbar color="primary" dark flat align-center>
                             <v-spacer />
                                 <v-toolbar-title class="toolbarTitle">
-                                    Sign Up
+                                    Update Account
                                 </v-toolbar-title>
                             <v-spacer />  
                         </v-toolbar>
@@ -17,7 +17,7 @@
                                     label="Name"
                                     required
                                     :rules="nameRules"
-                                    v-model="name"
+                                    v-model="this.name"
                                     prepend-icon="mdi-account-circle"
                                     type="text"
                                 ></v-text-field>
@@ -25,7 +25,7 @@
                                     label="Lastname"
                                     required
                                     :rules="lastnameRules"
-                                    v-model="lastname"
+                                    v-model="this.lastname"
                                     prepend-icon="mdi-account-circle"
                                     type="text"
                                 ></v-text-field>
@@ -33,16 +33,25 @@
                                     label="Email"
                                     required
                                     :rules="emailRules"
-                                    v-model="email"
+                                    v-model="this.email"
                                     prepend-icon="mdi-email"
                                     type="email"
+                                ></v-text-field>
+                                <v-text-field
+                                    v-model="currentPassword"
+                                    :append-icon="showCurrentPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                                    :type="showCurrentPassword ? 'text' : 'password'"
+                                    :rules="passwordRules"
+                                    label="Current Password"
+                                    @click:append="showCurrentPassword = !showCurrentPassword"
+                                    prepend-icon="mdi-lock"
                                 ></v-text-field>
                                 <v-text-field
                                     v-model="password"
                                     :append-icon="showpassword ? 'mdi-eye' : 'mdi-eye-off'"
                                     :type="showpassword ? 'text' : 'password'"
                                     :rules="passwordRules"
-                                    label="Password"
+                                    label="New Password"
                                     @click:append="showpassword = !showpassword"
                                     prepend-icon="mdi-lock"
                                 ></v-text-field>
@@ -50,7 +59,7 @@
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer>
-                                <v-btn type="submit" outlined color="primary" @click="signUp" :disabled="!valid" >Submit <v-icon right>mdi-login-variant</v-icon></v-btn>
+                                <v-btn type="submit" outlined color="primary" @click="updateAccount" :disabled="!valid" >submit <v-icon right>mdi-login-variant</v-icon></v-btn>
                             </v-spacer>
                         </v-card-actions>
                     </v-card>
@@ -71,8 +80,11 @@ export default {
             lastname: "",
             email: "",
             password: "",
+            currentPassword: "",
+            submitted: false,
             valid: true,
             showpassword: false,
+            showCurrentPassword: false,
             nameRules: 
             [
                 name => !!name || "Name is required",
@@ -96,34 +108,60 @@ export default {
         }
     },
     methods: {
-        signUp(){ 
-            firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(() => 
+        refresh()
+        {
+            console.log(this.user.data.email)
+            this.db.collection('users').doc(this.user.data.email).get().then((user) =>
             {
-                this.db.collection('users').doc(this.email).set(
+                console.log(user)
+                this.name = user.data.name
+                this.lastname = user.data.lastname
+                this.email = user.data.email
+            }).catch(error => {
+                console.log(error.message)
+                alert("sdfjlkdsa")
+            })
+        },
+        updateAccount()
+        {
+            let user = firebase.auth().currentUser
+            var credential = firebase.auth.EmailAuthProvider.credential(user.email, this.currentPassword)
+            user.reauthenticateWithCredential(credential).then(() => 
+            {
+                user.updateEmail(this.email).then(function() 
                 {
-                    name: this.name,
-                    lastname: this.lastname,
-                    active: true
-                })
-                .then(() => 
+                    console.log("updatedemail")
+                }).catch(function(error) {
+                    console.log(error.message)
+                });
+                user.updatePassword(this.password).then(function() 
                 {
-                    this.$router.replace(
+                    console.log("updatedpassword")
+                }).catch(function(error) {
+                    console.log(error.message)
+                });
+                this.db.collection('users').doc(this.user.email).get().then(() =>
+                {
+                    // let name = user.data.name
+                    // let lastName = user.data.lastName
+                    
+                    this.db.collection('users').doc(this.email).set(
                     {
-                        name: "forums"
-                    });
-                }).catch(err => {
-                    console.log(err.message)
+                        
+                    })
                 })
-            }).catch(err => {
+            }).catch((err) => {
                 console.log(err.message)
             });
-            
         }
     },
     computed: {
     ...mapGetters({
     user: "user"
     })
+    },
+    mounted(){
+        this.refresh()
     }
 }
 </script>

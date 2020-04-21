@@ -5,6 +5,7 @@ import Forums from '../Views/Forums.vue'
 import Forum from '../components/Forum.vue'
 import LogInForm from '../Views/LogInForm.vue'
 import SignUpForm from '../Views/SignUpForm.vue'
+import UpdateAccount from '../Views/UpdateAccount.vue'
 
 
 Vue.use(Router);
@@ -19,7 +20,7 @@ export default new Router({
     {path: "/forums/forum/:id", name: 'forum',  component: Forum},
     {path: "/logIn",            name: 'logIn',  component: LogInForm},
     {path: "/signUp",           name: 'signUp', component: SignUpForm},
-    {path: "/updateAccount",    name: 'updateAccount', component: SignUpForm}
+    {path: "/updateAccount",    name: 'updateAccount', component: UpdateAccount}
   ],
   linkActiveClass: 'active',
 });
