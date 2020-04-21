@@ -178,7 +178,7 @@ export default {
     showNewForumStatus(status)
     {
       this.newForumStatus = status
-      //setTimeout(() => this.newForumStatus = null, 3000);
+      setTimeout(() => this.newForumStatus = null, 3000);
     }
   },
   filters: {

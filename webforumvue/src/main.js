@@ -3,7 +3,7 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 import vuetify from './plugins/vuetify'
 import store from './config/store'
-import router from './routes/starterRouter';
+import router from './routes/starterRouter'
 
 Vue.config.productionTip = false
 

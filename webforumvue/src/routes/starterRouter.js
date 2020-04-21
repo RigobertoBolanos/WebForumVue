@@ -18,7 +18,8 @@ export default new Router({
     {path: "/forums",           name: 'forums', component: Forums},
     {path: "/forums/forum/:id", name: 'forum',  component: Forum},
     {path: "/logIn",            name: 'logIn',  component: LogInForm},
-    {path: "/signUp",           name: 'signUp', component: SignUpForm}
+    {path: "/signUp",           name: 'signUp', component: SignUpForm},
+    {path: "/updateAccount",    name: 'updateAccount', component: SignUpForm}
   ],
   linkActiveClass: 'active',
 });

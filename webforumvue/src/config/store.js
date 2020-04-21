@@ -9,7 +9,7 @@ export default new Vuex.Store({
     user: 
     {
       loggedIn: false,
-      data: null
+      data: null,
     }
   },
   getters: 
@@ -38,7 +38,7 @@ export default new Vuex.Store({
         {
             commit("SET_USER", 
             {
-                name: user.name,
+                displayName: user.name,
                 lastName: user.lastName,
                 email: user.email,
                 active: user.active

@@ -14,6 +14,7 @@
         <template v-if="enableOptions" class="options">
           <v-btn @click="signOut" text>Sign Out</v-btn>
           <v-btn @click="deleteAccount" text>Delete Account</v-btn>
+          <v-btn @click="editAccount" text>Edit Account</v-btn>
         </template>
       </template>
       <template v-else>
@@ -62,6 +63,12 @@ export default {
       user.delete().then(function() {
           // User deleted.
         })
+    },
+    editAccount(){
+      this.$router.replace(
+      {
+        name: "updateAccount"
+      });
     }
   }
 };
