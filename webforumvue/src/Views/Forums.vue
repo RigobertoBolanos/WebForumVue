@@ -172,8 +172,8 @@ export default {
           }
         });
     },
-    verifyDelete(creatorEmail) {
-      return this.user.data.email === creatorEmail;
+    verifyDelete(creator) {
+      return this.user.data.email === creator.id;
     },
     showNewForumStatus(status)
     {

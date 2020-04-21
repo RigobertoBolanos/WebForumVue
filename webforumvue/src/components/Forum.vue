@@ -28,7 +28,7 @@
                 </v-col>
                 <v-col cols="6">
                   <b>Creator:</b>
-                  {{forum.creator}}
+                  {{forum.creator.id}}
                 </v-col>
               </v-row>
               <hr />
@@ -162,6 +162,7 @@ export default {
           {
             if (entry.data().id === this.$route.params.id) 
             {
+              console.log(entry)
               this.forum = entry.data();
             } 
             else if (entry.data().parent !== null && entry.data().parent.id === this.$route.params.id) 
@@ -172,7 +173,10 @@ export default {
           this.forum.entries = forumEntries.sort(function(a, b) {
             return a.creation_date - b.creation_date
           });
-        });
+      }).catch(error => 
+      {
+        console.log(error.message)
+      })
     },
     orderByNumber(property, sortOrder) {
       if (sortOrder != -1 && sortOrder != 1) sortOrder = 1;
